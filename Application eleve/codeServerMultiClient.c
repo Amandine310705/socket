@@ -3,6 +3,7 @@
  * @brief Fonction principale du programme
  * @return 0 Arrêt normal du programme
  */
+
 int main(void)
 {
     SOCKET listenSocket;  // Socket d'écoute en attente des connexions des clients
@@ -13,14 +14,13 @@ int main(void)
     fd_set readfds;  
     int max_sd, sd, activity, max_clients = 30; //variable pour le mutli client.  
 
-    
 
     //initialise all client_socket[] to 0 so not checked  
     for (int i = 0; i < max_clients; i++)   
     {   
         clientSocket[i] = 0;   
         listMember[i] = NULL;
-    }   
+    }
 
     //initialise le socket du serveur.
 

@@ -7,7 +7,7 @@
 #include <errno.h>
 
 //Si nous sommes sous Windows
-#if defined (WIN32)
+/*#if defined (WIN32)
 
     #include <winsock2.h>
 
@@ -15,8 +15,7 @@
     typedef int socklen_t;
 
 // Sinon, si nous sommes sous Linux
-#elif defined (linux)
-
+#elif defined (linux)*/
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -32,8 +31,8 @@
     typedef int SOCKET;
     typedef struct sockaddr_in SOCKADDR_IN;
     typedef struct sockaddr SOCKADDR;
+//#endif
 
-#endif
 
 #define MAX_MSG 2048
 // 1 caractère pour le codes ASCII '\0'
@@ -52,48 +51,30 @@ struct Mail {
     Mail *previous;
 };
 
-/*
-affichage sur la console le mail donné en paramètre
-*/
+// Affichage sur la console le mail donné en paramètre
 void printMail(Mail *mail);
 
-/*
-Sauvegarde un mail dans un fichier situé au même endroit que notre programme, le fichier contiendra l'ensemble des mails reçu et envoyé par notre client. 
-*/
+// Sauvegarde un mail dans un fichier situé au même endroit que notre programme, le fichier contiendra l'ensemble des mails reçu et envoyé par notre client.
 void saveMail(Mail *mail);
 
-/*
-Permet de lire tous les mails sauvegarder et de les mettre dans notre liste de mail.
-*/
+// Permet de lire tous les mails sauvegarder et de les mettre dans notre liste de mail.
 void readAllSaveMail(Mail** listeMail);
 
-/*
-Crée un mail remplie par l'utilisateur. 
-*/
+// Crée un mail remplie par l'utilisateur. 
 void createMail(char *senderMail, Mail *mail);
 
-/*
-Envoit le mail donné en paramètre au serveur définit par le socket donné en paramètre. 
-*/
+// Envoit le mail donné en paramètre au serveur définit par le socket donné en paramètre.
 void sendMail(Mail *mail, SOCKET socketDescriptor);
 
-/*
-Envoie un message au serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur et renvoie la longueur du message.
-*/
+// Envoie un message au serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur et renvoie la longueur du message.
 int sendMessage(char *message, SOCKET socketDescriptor);
 
-/*
-Lit un int reçu par le servueur donné en paramètre
-*/
+// Lit un int reçu par le servueur donné en paramètre
 int readInt(SOCKET socketDescriptor);
 
-/*
-Reçoit un message du serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur, complète le message par un caractère de fin de chaîne de caractère et renvoie la longueur du message. Le message est stocké dans le paramètre message.
-*/
+// Reçoit un message du serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur, complète le message par un caractère de fin de chaîne de caractère et renvoie la longueur du message. Le message est stocké dans le paramètre message.
 int readMessage(char *message, SOCKET socketDescriptor);
 
-/*
-Lit un mail envoyé par le serveur et créer une variable mail pour stocker toutes les informations.
-*/
+// Lit un mail envoyé par le serveur et créer une variable mail pour stocker toutes les informations.
 void readMail(Mail *mail, SOCKET socketDescriptor);
 
