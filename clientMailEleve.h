@@ -61,7 +61,7 @@ void saveMail(Mail *mail);
 void readAllSaveMail(Mail** listeMail);
 
 // Crée un mail remplie par l'utilisateur. 
-void createMail(char *senderMail, Mail *mail);
+void createMail(Mail *mail);
 
 // Envoit le mail donné en paramètre au serveur définit par le socket donné en paramètre.
 void sendMail(Mail *mail, SOCKET socketDescriptor);
