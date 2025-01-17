@@ -64,12 +64,12 @@ void readAllSaveMail(Mail** listeMail);
 void createMail(Mail *mail);
 
 // Envoit le mail donné en paramètre au serveur définit par le socket donné en paramètre.
-void sendMail(Mail *mail, SOCKET socketDestination);
+void sendMail(Mail *mail, SOCKET socketDescriptor);
 
 // Envoie un message au serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur et renvoie la longueur du message.
 int sendMessage(char *message, SOCKET socketDescriptor);
 
-// Lit un int reçu par le servueur donné en paramètre
+// Lit un int reçu par le serveur donné en paramètre
 int readInt(SOCKET socketDescriptor);
 
 // Reçoit un message du serveur définit par le socket en paramètre, vérifie si il n'y a pas d'erreur, complète le message par un caractère de fin de chaîne de caractère et renvoie la longueur du message. Le message est stocké dans le paramètre message.

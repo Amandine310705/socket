@@ -113,19 +113,22 @@ void printMail(Mail *mail)
     return;
 }
 
-void sendMail(Mail *mail, SOCKET socketDestination)
+void sendMail(Mail *mail, SOCKET socketDescriptor)
 {
-    if(send(socketDestination, mail->receiver, strlen(mail->receiver), 0) == -1)
+    if(send(socketDescriptor, mail->receiver, strlen(mail->receiver), 0) == -1)
     {
         perror("mail reciever sending failed ");
+        return;
     }
-    if(send(socketDestination, mail->object, strlen(mail->object), 0) == -1)
+    if(send(socketDescriptor, mail->object, strlen(mail->object), 0) == -1)
     {
         perror("mail object sending failed ");
+        return;
     }
-    if(send(socketDestination, mail->message, strlen(mail->message), 0) == -1)
+    if(send(socketDescriptor, mail->message, strlen(mail->message), 0) == -1)
     {
         perror("mail message sending failed ");
+        return;
     }
     
     char timeStr[100];
@@ -136,9 +139,11 @@ void sendMail(Mail *mail, SOCKET socketDestination)
         return;
     }
 
-    if(send(socketDestination, mail->timeMail, strlen(mail->message), 0) == -1)
+    // Envoyer le temps sous forme de chaîne de caractères
+    if(send(socketDescriptor, timeStr, strlen(timeStr), 0) == -1)
     {
         perror("mail time sending failed ");
+        return;
     }
 
     return;
