@@ -49,16 +49,22 @@ int main(void)
 
     if(send(client_fd, buffer, strlen(buffer), 0) == -1)
     {
-        perror("mail sending failed ");
+        perror("mail sender sending failed ");
         return -1;
     }// else { printf("email sent\n"); }
     buffer[0] = '\0';
 
     createMail(&mail);
     printMail(&mail);
+    sendMail(&mail, client_fd);
 
     // Fermer le socket connecté
     close(client_fd);
+
+    free(mail.sender);
+    free(mail.receiver);
+    free(mail.message);
+    free(mail.object);
 
     return EXIT_SUCCESS;
 }
@@ -94,11 +100,6 @@ void createMail(Mail *mail)
 
     strcpy(mail->message, buffer);
 
-    free(mail->sender);
-    free(mail->receiver);
-    free(mail->message);
-    free(mail->object);
-
     return;
 }
 
@@ -108,6 +109,37 @@ void printMail(Mail *mail)
     printf("Destinataire : %s\n", mail->receiver);
     printf("Objet : %s\n", mail->object);
     printf("Message : %s\n", mail->message);
+
+    return;
+}
+
+void sendMail(Mail *mail, SOCKET socketDestination)
+{
+    if(send(socketDestination, mail->receiver, strlen(mail->receiver), 0) == -1)
+    {
+        perror("mail reciever sending failed ");
+    }
+    if(send(socketDestination, mail->object, strlen(mail->object), 0) == -1)
+    {
+        perror("mail object sending failed ");
+    }
+    if(send(socketDestination, mail->message, strlen(mail->message), 0) == -1)
+    {
+        perror("mail message sending failed ");
+    }
+    
+    char timeStr[100];
+    struct tm *tm_info = localtime(&mail->timeMail);
+    if (strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", tm_info) == 0)
+    {
+        perror("strftime failed ");
+        return;
+    }
+
+    if(send(socketDestination, mail->timeMail, strlen(mail->message), 0) == -1)
+    {
+        perror("mail time sending failed ");
+    }
 
     return;
 }
