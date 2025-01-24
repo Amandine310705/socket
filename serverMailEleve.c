@@ -153,6 +153,7 @@ void printMail(Mail *mail) {
 
 int main(void)
 {
+    Mail newMail;
     SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock == INVALID_SOCKET) {
         perror("socket failed");
@@ -199,25 +200,25 @@ int main(void)
 
         char clientIP[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, &clientAddr.sin_addr, clientIP, sizeof(clientIP));
-        printf("Client connecté depuis %s:%d\n", clientIP, ntohs(clientAddr.sin_port));
+        printf("Client connecté depuis %s\n", clientIP);
 
-        char clientAdress[128];
-        int bytesRead = readMessage(clientAdress, clientSock);
+        char buffer[1000];
+        int bytesRead = readMessage(buffer, clientSock);
         if (bytesRead > 0) {
-            printf("Adresse mail du client reçue : %s\n", clientAdress);
+            printf("Adresse mail du client reçue : %s\n", buffer);
 
-            addMember(clientSock, clientIP, &memberList, clientAdress);
+            addMember(clientSock, clientIP, &memberList, buffer);
+            
         }
+        char buffer2[1000];
 
-        char buffer[MSG_ARRAY_SIZE];
-        bytesRead = readMessage(buffer, clientSock);
+        bytesRead = readMessage(buffer2, clientSock);
         if (bytesRead > 0) {
-            Mail newMail;
             Member *receiver = readMail(&newMail, clientSock, &memberList);
-
+            printf("Message : %s\n", buffer2);
             if (receiver != NULL) {
                 sendMail(&newMail, receiver->sock);
-                printf("Mail envoyé à %s\n", receiver->adress);
+                printf("Adresse mail du destinataire %s\n", receiver->adress);
             } else {
                 char errorMsg[] = "Destinataire inconnu. Mail non envoyé.";
                 sendMessage(errorMsg, clientSock);
