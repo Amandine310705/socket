@@ -6,7 +6,7 @@
  * @brief Fonction principale du programme serveur.
  * @return 0 Arrêt normal du programme.
  */
-#define PORT 8080
+#define PORT 7676
 
 int findMailWaiting(SOCKET socket, Mail **listMailWait) {
     for (int i = 0; listMailWait[i] != NULL; i++) {
