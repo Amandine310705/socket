@@ -7,7 +7,7 @@
 #include <errno.h>
 
 //Si nous sommes sous Windows
-#if defined (WIN32)
+/*#if defined (WIN32)
 
     #include <winsock2.h>
 
@@ -16,7 +16,7 @@
 
 // Sinon, si nous sommes sous Linux
 #elif defined (linux)
-
+*/
     #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
@@ -33,7 +33,7 @@
     typedef struct sockaddr_in SOCKADDR_IN;
     typedef struct sockaddr SOCKADDR;
 
-#endif
+//#endif
 
 #define MAX_MSG 2048
 // 1 caractère pour le codes ASCII '\0'
